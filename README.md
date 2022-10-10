@@ -8,4 +8,4 @@ Just the most basic features are implemented. The primary one is the reading of 
 
 The code is heavily based on the Adafruit PN532 NFC/RFID control library by Tony DiCola.
 
-__Fork update:__ Forked from https://github.com/infinite-tree/pn532-asyncand, adapted to be synchronous and ready to be used without asyncio dependecy.
+__Fork update:__ Forked from https://github.com/infinite-tree/pn532-async, adapted to be synchronous and ready to be used without asyncio dependecy.
