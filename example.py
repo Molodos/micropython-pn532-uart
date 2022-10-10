@@ -1,6 +1,6 @@
-import uasyncio as asyncio
 import machine
 from pn532 import PN532Uart
+import utime
 
 # This example initializes the PN532 and then enters a forever loop
 # waiting for rfid tags to be read.
@@ -12,37 +12,36 @@ from pn532 import PN532Uart
 #      esp32 OUT = 21 = buzzer (or led)
 #
 
-# Enable debug printing here:
 DEBUG = False
 
 
-async def test():
+def test():
     buzzer = machine.Pin(21, machine.Pin.OUT)
     buzzer.off()
 
     # NOTE: on several of the esp32-wrover dev boards, the default uart2 pins
     #       conflict with the psRam so the pn532 is plugged into two unused
     #       pins instead.
-    rf = PN532Uart(2, tx=22, rx=23, debug=DEBUG)
-    await rf.SAM_configuration()
+    try:
+        rf = PN532Uart(2, tx=22, rx=23, debug=DEBUG)
+        rf.SAM_configuration()
+        ic, ver, rev, support = await rf.get_firmware_version()
+        print('Found PN532 with firmware version: {0}.{1}'.format(ver, rev))
+    except Exception as e:
+        rf = None
+        print('No NFC reader (PN532) detected')
 
-    ic, ver, rev, support = await rf.get_firmware_version()
-    print('Found PN532 with firmware version: {0}.{1}'.format(ver, rev))
-
-    while True:
+    while rf is not None:
         try:
-            uid = await asyncio.wait_for(rf.read_passive_target(), timeout=1.0)
+            uid = rf.read_passive_target()
             print("Card UUID: ", [hex(i) for i in uid])
             buzzer.on()
-            await asyncio.sleep(0.2)
+            utime.sleep_ms(200)
             buzzer.off()
-        except asyncio.TimeoutError:
+        except Exception as e:
             # NOTE: This is important to stop the reader from reporting cards after
             #       we are no longer waiting.
-            await rf.release_targets()
+            rf.release_targets()
             print('timeout!')
 
-
-loop = asyncio.get_event_loop()
-loop.create_task(test())
-loop.run_forever()
+test()
