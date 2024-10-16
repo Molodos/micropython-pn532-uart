@@ -8,12 +8,9 @@ Just the most basic features are implemented. The primary one is the reading of 
 
 ```python
 from pn532 import PN532Uart
-import utime
-
-DEBUG = False
 
 try:
-    rf = PN532Uart(1, tx=4, rx=5, debug=DEBUG)
+    rf = PN532Uart(1, tx=4, rx=5, debug=false)
     rf.SAM_configuration()
     ic, ver, rev, support = rf.get_firmware_version()
     print('Found PN532 with firmware version: {0}.{1}'.format(ver, rev))
