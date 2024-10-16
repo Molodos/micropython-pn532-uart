@@ -10,7 +10,7 @@ Just the most basic features are implemented. The primary one is the reading of 
 from pn532 import PN532Uart
 
 try:
-    rf = PN532Uart(1, tx=4, rx=5, debug=false)
+    rf = PN532Uart(1, tx=4, rx=5, debug=False)
     rf.SAM_configuration()
     ic, ver, rev, support = rf.get_firmware_version()
     print('Found PN532 with firmware version: {0}.{1}'.format(ver, rev))
