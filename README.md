@@ -1,5 +1,5 @@
 # micropython-pn532-uart
-UART based driver for the pn532. This driver is designed for use with micropython on the esp32.
+UART based driver for the pn532. This driver is designed for use with micropython on the RP2040 Zero.
 
 ## Status
 Just the most basic features are implemented. The primary one is the reading of passive rfid cards.
@@ -13,7 +13,7 @@ import utime
 DEBUG = False
 
 try:
-    rf = PN532Uart(2, tx=22, rx=23, debug=DEBUG)
+    rf = PN532Uart(1, tx=4, rx=5, debug=DEBUG)
     rf.SAM_configuration()
     ic, ver, rev, support = rf.get_firmware_version()
     print('Found PN532 with firmware version: {0}.{1}'.format(ver, rev))
@@ -33,4 +33,4 @@ while rf is not None:
 
 The code is heavily based on the Adafruit PN532 NFC/RFID control library by Tony DiCola.
 
-__Fork update:__ Forked from https://github.com/infinite-tree/pn532-async, adapted to be synchronous and ready to be used without asyncio dependecy.
+__Fork update:__ Forked from https://github.com/insighio/micropython-pn532-uart, adapted to work on the RP2040 Zero.
