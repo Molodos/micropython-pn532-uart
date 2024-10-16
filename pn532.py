@@ -1,3 +1,7 @@
+"""
+Library Git Repository: https://github.com/Molodos/micropython-pn532-uart
+"""
+
 from micropython import const
 import machine
 import utime
