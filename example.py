@@ -25,7 +25,7 @@ def test():
     try:
         rf = PN532Uart(2, tx=22, rx=23, debug=DEBUG)
         rf.SAM_configuration()
-        ic, ver, rev, support = await rf.get_firmware_version()
+        ic, ver, rev, support = rf.get_firmware_version()
         print('Found PN532 with firmware version: {0}.{1}'.format(ver, rev))
     except Exception as e:
         rf = None
